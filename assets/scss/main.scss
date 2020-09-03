@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+// Bootstrap and its default variables
+@import '../../node_modules/bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import '../../node_modules/bootstrap-vue/src/index.scss';
+
+body {
+  width: 100%;
+  font-size: 14px;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+}
+
+#app {
+  @extend .p-0;
+  @extend .my-auto
+}
+
+#main-header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
