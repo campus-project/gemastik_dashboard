@@ -24,48 +24,14 @@
                 width="720"
                 height="650" />
       </b-col>
-      <b-col md="4">
-        <traffic-card />
-      </b-col>
-      <b-col md="4">
-        <face-mask-card />
-      </b-col>
-      <b-col md="4">
-        <physical-distance-card />
-      </b-col>
-    </b-row>
-
-    <b-row>
-      <b-col md="12">
-        <overview-chart></overview-chart>
-      </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-import TrafficCard from '~/components/cards/Traffic'
-import FaceMaskCard from '~/components/cards/FaceMask'
-import PhysicalDistanceCard from '~/components/cards/PhysicalDistance'
-import OverviewChart from '~/components/charts/OverviewChart'
-
 export default {
-  components: {
-    TrafficCard,
-    FaceMaskCard,
-    PhysicalDistanceCard,
-    OverviewChart
-  },
-  data () {
-    return {
-      chartOptions: {
-        series: [{
-          data: [1, 2, 3] // sample data
-        }]
-      }
-    }
-  },
   mounted () {
+    alert(navigator.mediaDevices)
     if (navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia) {
       // define a Promise that'll be used to load the webcam and read its frames
       const webcamPromise = navigator.mediaDevices
