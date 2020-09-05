@@ -8,20 +8,23 @@
       </b-col>
     </b-row>
 
+    <div style="background-color: red">
+      <video
+        ref="videoRef"
+        autoPlay="autoplay"
+        muted
+        playsInline
+        width="720"
+        height="600"
+      />
+      <canvas ref="canvasRef"
+              width="720"
+              height="650" />
+    </div>
+
     <b-row class="mb-3">
       <b-col md="12">
         <video src="https://r3---sn-2uuxa3vh-jb36.googlevideo.com/videoplayback?expire=1599369685&ei=dB1UX4biOoPkgQf7nL6wDQ&ip=118.98.90.22&id=o-APKxqSPiRF_zb7sOMn_6wP9jG9DhRo42K2gOWC0BFxGs&itag=18&source=youtube&requiressl=yes&gcr=id&vprv=1&mime=video%2Fmp4&gir=yes&clen=19702711&ratebypass=yes&dur=232.478&lmt=1574747794247892&fvip=3&c=WEB&txp=5531432&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRgIhALutSfO-I_2M9JUZPn190QOlFCyusw3RjKwffTN2OPZYAiEAoX4fQAHHj8XYLqoYVX0bhgGSMWOTZ2DbnQPFCMTP0dw%3D&video_id=DzwkcbTQ7ZE&title=Jessie+J+-+Flashlight+%28from+Pitch+Perfect+2%29+%28Official+Video%29&redirect_counter=1&rm=sn-nposr7s&req_id=3213d70fdb52a3ee&cms_redirect=yes&ipbypass=yes&mh=id&mip=36.71.57.145&mm=31&mn=sn-2uuxa3vh-jb36&ms=au&mt=1599348036&mv=m&mvi=3&pl=21&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRQIgGmmBeLAIuNQ4AYj_QxmOR1NDV2NQswh_GTmuRR2doAMCIQDVpzOfY9EgLTF_nAtbp4lJd-ZgjwKdM8t7OjQBSjvEsQ%3D%3D"></video>
-        <video
-          ref="videoRef"
-          autoPlay
-          muted
-          playsInline
-          width="720"
-          height="600"
-        />
-        <canvas ref="canvasRef"
-                width="720"
-                height="650" />
       </b-col>
     </b-row>
   </div>
@@ -41,10 +44,10 @@ export default {
           // pass the current frame to the window.stream
           window.stream = stream
           // pass the stream to the videoRef
-          this.videoRef.current.srcObject = stream
+          this.$refs.videoRef.current.srcObject = stream
 
           return new Promise((resolve) => {
-            this.videoRef.current.onloadedmetadata = () => {
+            this.$refs.videoRef.current.onloadedmetadata = () => {
               resolve()
             }
           })
@@ -60,7 +63,7 @@ export default {
       // resolve all the Promises
       Promise.all([loadlModelPromise, webcamPromise])
         .then((values) => {
-          this.detectFromVideoFrame(values[0], this.videoRef.current)
+          this.detectFromVideoFrame(values[0], this.$refs.videoRef.current)
         })
         .catch((error) => {
           console.error(error)
@@ -81,7 +84,7 @@ export default {
       })
     },
     showDetections (predictions) {
-      const ctx = this.canvasRef.current.getContext('2d')
+      const ctx = this.$refs.canvasRef.current.getContext('2d')
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       const font = '24px helvetica'
       ctx.font = font
