@@ -12,6 +12,7 @@
       <div class="col-md-12">
         <video
           id="videoRef"
+          class="video"
           autoPlay="autoplay"
           muted
           playsInline
