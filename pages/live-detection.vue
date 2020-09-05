@@ -11,14 +11,14 @@
     <div class="row">
       <div class="col-md-12">
         <video
-          ref="videoRef"
+          id="videoRef"
           autoPlay="autoplay"
           muted
           playsInline
           width="720"
           height="600"
         />
-        <canvas ref="canvasRef"
+        <canvas id="canvasRef"
                 width="720"
                 height="650" />
       </div>
@@ -36,6 +36,7 @@
 <script>
 export default {
   mounted () {
+    const videoRef = document.getElementById('videoRef')
     if (navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia) {
       // define a Promise that'll be used to load the webcam and read its frames
       const webcamPromise = navigator.mediaDevices
@@ -47,10 +48,10 @@ export default {
           // pass the current frame to the window.stream
           window.stream = stream
           // pass the stream to the videoRef
-          this.$refs.videoRef.current.srcObject = stream
+          videoRef.current.srcObject = stream
 
           return new Promise((resolve) => {
-            this.$refs.videoRef.current.onloadedmetadata = () => {
+            videoRef.current.onloadedmetadata = () => {
               resolve()
             }
           })
@@ -67,7 +68,7 @@ export default {
       // resolve all the Promises
       Promise.all([loadlModelPromise, webcamPromise])
         .then((values) => {
-          this.detectFromVideoFrame(values[0], this.$refs.videoRef.current)
+          this.detectFromVideoFrame(values[0], videoRef.current)
         })
         .catch((error) => {
           alert(error)
@@ -90,7 +91,8 @@ export default {
       })
     },
     showDetections (predictions) {
-      const ctx = this.$refs.canvasRef.current.getContext('2d')
+      const canvasRef = document.getElementById('canvasRef')
+      const ctx = canvasRef.current.getContext('2d')
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       const font = '24px helvetica'
       ctx.font = font
