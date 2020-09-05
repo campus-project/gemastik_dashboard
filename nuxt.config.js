@@ -36,14 +36,19 @@ export default {
   ** Global CSS
   */
   css: [
-    { type: 'scss', src: '@/assets/scss/main.scss' }
+    { type: 'scss', src: '@/assets/scss/main.scss' },
+    '@fortawesome/fontawesome-svg-core/styles.css'
   ],
   /*
   ** Plugins to load before mounting the App
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
-    '@/plugins/components.js'
+    '@/plugins/bootstrap.js',
+    '@/plugins/components.js',
+    '@/plugins/highcharts.js',
+    '@/plugins/fontawesome.js',
+    { ssr: false, src: '@/plugins/vue-apexchart.js' }
   ],
   /*
   ** Auto import components
@@ -77,5 +82,11 @@ export default {
   ** See https://nuxtjs.org/api/configuration-build/
   */
   build: {
+    /*
+     ** You can extend webpack config here
+     */
+    vendor: ['vue-apexchart'],
+    transpile: ['countup.js', 'vue-countup-v2'],
+    extend(_config, _ctx) {}
   }
 }

@@ -1,0 +1,25 @@
+body {
+  overflow-x: hidden;
+}
+
+.navbar-brand-wrapper {
+  width: 200px;
+
+  @extend .d-flex;
+  @extend .justify-content-center;
+
+  .navbar-brand {
+    @extend .py-1;
+
+    img {
+      width: auto;
+      height: 40px;
+    }
+  }
+}
+
+.page-content-wrapper {
+  padding-top: 64px;
+
+  @extend .px-0;
+}
