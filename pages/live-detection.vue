@@ -12,7 +12,6 @@
       <b-col md="12">
         <video
           ref="videoRef"
-          style="position: fixed; top: 150px; left: 150px;"
           autoPlay
           muted
           playsInline
@@ -20,7 +19,6 @@
           height="600"
         />
         <canvas ref="canvasRef"
-                style="position: fixed; top: 150px; left: 150px;"
                 width="720"
                 height="650" />
       </b-col>
