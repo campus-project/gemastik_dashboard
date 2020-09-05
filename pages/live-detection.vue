@@ -19,6 +19,7 @@
           height="600"
         />
         <canvas id="canvasRef"
+                class="video"
                 width="720"
                 height="650" />
       </div>
@@ -130,3 +131,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.video {
+  position: fixed;
+  top: 150px;
+  left: 150px;
+}
+</style>
