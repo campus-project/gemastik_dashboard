@@ -30,6 +30,10 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
+    script: [
+      { src: 'https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js' },
+      { src: 'https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd' }
     ]
   },
   /*
