@@ -48,10 +48,10 @@ export default {
           // pass the current frame to the window.stream
           window.stream = stream
           // pass the stream to the videoRef
-          videoRef.current.srcObject = stream
+          videoRef.srcObject = stream
 
           return new Promise((resolve) => {
-            videoRef.current.onloadedmetadata = () => {
+            videoRef.onloadedmetadata = () => {
               resolve()
             }
           })
@@ -68,7 +68,7 @@ export default {
       // resolve all the Promises
       Promise.all([loadlModelPromise, webcamPromise])
         .then((values) => {
-          this.detectFromVideoFrame(values[0], videoRef.current)
+          this.detectFromVideoFrame(values[0], videoRef)
         })
         .catch((error) => {
           alert(error)
@@ -92,7 +92,7 @@ export default {
     },
     showDetections (predictions) {
       const canvasRef = document.getElementById('canvasRef')
-      const ctx = canvasRef.current.getContext('2d')
+      const ctx = canvasRef.getContext('2d')
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       const font = '24px helvetica'
       ctx.font = font
