@@ -1,0 +1,41 @@
+.video-wrapper {
+  @extend .border-0;
+  @extend .d-flex;
+  @extend .card;
+  border-radius: 15px;
+
+  video {
+    object-fit: cover;
+    border-radius: inherit;
+  }
+
+  canvas {
+    position: absolute;
+    border-radius: 15px;
+    top: 0;
+  }
+}
+
+.video-info-wrapper {
+  height: 100%;
+
+  .card {
+    border-radius: 15px;
+    height: 100%
+  }
+}
+
+.video-graph-wrapper {
+  height: 100%;
+  @extend .d-flex;
+  @extend .flex-column;
+  @extend .justify-content-between;
+
+  .card {
+    border-radius: 15px;
+
+    .card-body {
+      padding: 12px;
+    }
+  }
+}

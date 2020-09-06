@@ -13,7 +13,6 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.12.0",
     "@nuxtjs/pwa": "^3.0.0-beta.20",
-    "@tensorflow-models/coco-ssd": "^2.1.0",
     "bootstrap": "^4.5.0",
     "bootstrap-vue": "^2.15.0",
     "nuxt": "^2.14.0"
@@ -25,6 +24,8 @@
     "@fortawesome/vue-fontawesome": "^2.0.0",
     "@nuxtjs/eslint-config": "^3.1.0",
     "@nuxtjs/eslint-module": "^2.0.0",
+    "@tensorflow-models/coco-ssd": "^2.1.0",
+    "@tensorflow/tfjs": "^1.0.0",
     "apexcharts": "^3.20.0",
     "babel-eslint": "^10.1.0",
     "countup.js": "^2.0.7",

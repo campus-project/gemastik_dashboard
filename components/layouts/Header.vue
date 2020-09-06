@@ -6,8 +6,7 @@
     <div class="navbar-brand-wrapper">
         <nuxt-link class="navbar-brand"
                    to="/">
-          <img src="/gemastik13-logo.png"
-               alt="logo">
+          C-More
         </nuxt-link>
     </div>
 
@@ -16,18 +15,6 @@
     <b-collapse id="nav-collapse"
                 is-nav>
       <b-navbar-nav class="ml-auto">
-        <li class="nav-item">
-          <nuxt-link class="nav-link"
-                     to="/dashboard">
-            Dashboard
-          </nuxt-link>
-        </li>
-        <li class="nav-item">
-          <nuxt-link class="nav-link"
-                     to="/live-detection">
-            Live Detection
-          </nuxt-link>
-        </li>
         <li class="nav-item">
           <nuxt-link class="nav-link"
                      to="/about-us">

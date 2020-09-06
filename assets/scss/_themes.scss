@@ -6,7 +6,7 @@ body {
   width: 200px;
 
   @extend .d-flex;
-  @extend .justify-content-center;
+  @extend .justify-content-start;
 
   .navbar-brand {
     @extend .py-1;

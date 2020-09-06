@@ -1,45 +1,95 @@
 <template>
-  <div class="page-content">
-    <b-row>
-      <b-col md="12">
-        <h4>
-          Live Detection
-        </h4>
-      </b-col>
-    </b-row>
+  <b-row>
+    <b-col md="5">
+      <div id="video-wrapper"
+           class="video-wrapper">
+        <video ref="videoRef"
+               autoPlay="autoplay"
+               muted
+               playsInline
+               :width="videoWrapperWidth"
+               :height="videoWrapperHeight" />
 
-    <div class="row">
-      <div class="col-md-12">
-        <video
-          id="videoRef"
-          class="video"
-          autoPlay="autoplay"
-          muted
-          playsInline
-          width="720"
-          height="600"
-        />
-        <canvas id="canvasRef"
-                class="video"
-                width="720"
-                height="650" />
+        <canvas ref="canvasRef"
+                :width="videoWrapperWidth"
+                :height="videoWrapperHeight" />
       </div>
-    </div>
+    </b-col>
 
-    <!--<b-row class="mb-3">
-      <b-col md="12">
-        <video autoplay
-               src="https://r3-&#45;&#45;sn-2uuxa3vh-jb36.googlevideo.com/videoplayback?expire=1599369685&ei=dB1UX4biOoPkgQf7nL6wDQ&ip=118.98.90.22&id=o-APKxqSPiRF_zb7sOMn_6wP9jG9DhRo42K2gOWC0BFxGs&itag=18&source=youtube&requiressl=yes&gcr=id&vprv=1&mime=video%2Fmp4&gir=yes&clen=19702711&ratebypass=yes&dur=232.478&lmt=1574747794247892&fvip=3&c=WEB&txp=5531432&sparams=expire%2Cei%2Cip%2Cid%2Citag%2Csource%2Crequiressl%2Cgcr%2Cvprv%2Cmime%2Cgir%2Cclen%2Cratebypass%2Cdur%2Clmt&sig=AOq0QJ8wRgIhALutSfO-I_2M9JUZPn190QOlFCyusw3RjKwffTN2OPZYAiEAoX4fQAHHj8XYLqoYVX0bhgGSMWOTZ2DbnQPFCMTP0dw%3D&video_id=DzwkcbTQ7ZE&title=Jessie+J+-+Flashlight+%28from+Pitch+Perfect+2%29+%28Official+Video%29&redirect_counter=1&rm=sn-nposr7s&req_id=3213d70fdb52a3ee&cms_redirect=yes&ipbypass=yes&mh=id&mip=36.71.57.145&mm=31&mn=sn-2uuxa3vh-jb36&ms=au&mt=1599348036&mv=m&mvi=3&pl=21&lsparams=ipbypass,mh,mip,mm,mn,ms,mv,mvi,pl&lsig=AG3C_xAwRQIgGmmBeLAIuNQ4AYj_QxmOR1NDV2NQswh_GTmuRR2doAMCIQDVpzOfY9EgLTF_nAtbp4lJd-ZgjwKdM8t7OjQBSjvEsQ%3D%3D"></video>
-      </b-col>
-    </b-row>-->
-  </div>
+    <b-col md="3">
+      <div class="video-info-wrapper">
+        <b-card class="border-0 shadow-sm">
+          <b-card-body>
+            <div class="mb-2">
+              <h4 class="card-title mb-0">
+                SITUASI SAAT INI
+              </h4>
+            </div>
+
+            <b-row>
+              <b-col md="12">
+                <b-table :items="items"
+                         thead-class="d-none"
+                         borderless></b-table>
+              </b-col>
+            </b-row>
+          </b-card-body>
+        </b-card>
+      </div>
+    </b-col>
+
+    <b-col md="4">
+      <div class="video-graph-wrapper">
+        <traffic-card />
+
+        <face-mask-card />
+
+        <physical-distance-card />
+      </div>
+    </b-col>
+  </b-row>
 </template>
 
 <script>
+import TrafficCard from '~/components/cards/Traffic'
+import FaceMaskCard from '~/components/cards/FaceMask'
+import PhysicalDistanceCard from '~/components/cards/PhysicalDistance'
+
 export default {
+  components: {
+    TrafficCard,
+    FaceMaskCard,
+    PhysicalDistanceCard
+  },
+  data () {
+    return {
+      items: [
+        { title: '- Trafik', total: 18 },
+        { title: '- Menggunakan Masker', total: 9 },
+        { title: '- Menjaga Jarak', total: 10 },
+        { title: '- Pelanggar Masker', total: 9 },
+        { title: '- Pelanggar Menjaga Jarak', total: 8 }
+      ]
+    }
+  },
+  computed: {
+    videoWrapperWidth () {
+      if (process.client) {
+        return document.getElementById('video-wrapper').clientWidth
+      }
+
+      return 720
+    },
+    videoWrapperHeight () {
+      if (process.client) {
+        return document.getElementById('video-wrapper').clientHeight
+      }
+
+      return 500
+    }
+  },
   mounted () {
-    const videoRef = document.getElementById('videoRef')
-    if (navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia) {
+    if (navigator.mediaDevices && (navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia)) {
       // define a Promise that'll be used to load the webcam and read its frames
       const webcamPromise = navigator.mediaDevices
         .getUserMedia({
@@ -49,16 +99,15 @@ export default {
         .then((stream) => {
           // pass the current frame to the window.stream
           window.stream = stream
-          // pass the stream to the videoRef
-          videoRef.srcObject = stream
+          // pass the stream to the this.$refs.videoRef
+          this.$refs.videoRef.srcObject = stream
 
           return new Promise((resolve) => {
-            videoRef.onloadedmetadata = () => {
+            this.$refs.videoRef.onloadedmetadata = () => {
               resolve()
             }
           })
         }, (error) => {
-          alert(error)
           console.log("Couldn't start the webcam")
           console.error(error)
         })
@@ -70,10 +119,9 @@ export default {
       // resolve all the Promises
       Promise.all([loadlModelPromise, webcamPromise])
         .then((values) => {
-          this.detectFromVideoFrame(values[0], videoRef)
+          this.detectFromVideoFrame(values[0], this.$refs.videoRef)
         })
         .catch((error) => {
-          alert(error)
           console.error(error)
         })
     }
@@ -87,14 +135,12 @@ export default {
           this.detectFromVideoFrame(model, video)
         })
       }, (error) => {
-        alert(error)
         console.log("Couldn't start the webcam")
         console.error(error)
       })
     },
     showDetections (predictions) {
-      const canvasRef = document.getElementById('canvasRef')
-      const ctx = canvasRef.getContext('2d')
+      const ctx = this.$refs.canvasRef.getContext('2d')
       ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
       const font = '24px helvetica'
       ctx.font = font
@@ -124,19 +170,6 @@ export default {
         ctx.fillText(prediction.score.toFixed(2), x, y + height - textHeight)
       })
     }
-  },
-  head () {
-    return {
-      title: 'Dashboard'
-    }
   }
 }
 </script>
-
-<style scoped>
-.video {
-  position: fixed;
-  top: 150px;
-  left: 150px;
-}
-</style>
