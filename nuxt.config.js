@@ -17,11 +17,11 @@ export default {
    */
   server: {
     host: process.env.APP_URL,
-    port: process.env.APP_PORT
-    // https: {
-    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-    // }
+    port: process.env.APP_PORT,
+    https: {
+      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
+    }
   },
   /*
   ** Headers of the page
@@ -76,12 +76,32 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    // Doc: https://http.nuxtjs.org
+    '@nuxt/http',
     // Doc: https://bootstrap-vue.js.org
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    'nuxt-socket-io'
   ],
+  /*
+  ** io options
+  */
+  io: {
+    sockets: [
+      {
+        name: 'main',
+        url: 'https://localhost:3000'
+      }
+    ]
+  },
+  /*
+  ** Server Middleware
+  */
+  serverMiddleware: {
+    '/api': '~/api'
+  },
   /*
   /*
   ** Nuxt.js pwa modules
