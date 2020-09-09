@@ -1,3 +1,6 @@
+// import fs from 'fs'
+// import path from 'path'
+
 export default {
   /*
   ** Nuxt rendering mode
@@ -15,6 +18,10 @@ export default {
   server: {
     host: process.env.APP_URL,
     port: process.env.APP_PORT
+    // https: {
+    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
+    // }
   },
   /*
   ** Headers of the page
@@ -99,7 +106,9 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {},
+  axios: {
+    baseURL: process.env.APP_URL_API
+  },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
