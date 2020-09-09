@@ -1,6 +1,3 @@
-// import path from 'path'
-// import fs from 'fs'
-
 export default {
   /*
   ** Nuxt rendering mode
@@ -18,10 +15,6 @@ export default {
   server: {
     host: process.env.APP_URL,
     port: process.env.APP_PORT
-    // https: {
-    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-    // }
   },
   /*
   ** Headers of the page
@@ -58,7 +51,8 @@ export default {
     '@/plugins/components.js',
     '@/plugins/highcharts.js',
     '@/plugins/fontawesome.js',
-    { ssr: false, src: '@/plugins/vue-apexchart.js' }
+    { src: '@/plugins/vue-apexchart.js', ssr: false },
+    { src: '@/plugins/pusher.js', ssr: false }
   ],
   /*
   ** Auto import components
@@ -82,20 +76,8 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa',
-    'nuxt-socket-io'
+    '@nuxtjs/pwa'
   ],
-  /*
-  ** io options
-  */
-  io: {
-    sockets: [
-      {
-        name: 'main',
-        url: 'https://yudi.staging-dev.site'
-      }
-    ]
-  },
   /*
   ** Server Middleware
   */

@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import TrafficCard from '~/components/cards/Traffic'
 import FaceMaskCard from '~/components/cards/FaceMask'
 import PhysicalDistanceCard from '~/components/cards/PhysicalDistance'
@@ -64,15 +65,26 @@ export default {
   data () {
     return {
       items: [
-        { title: '- Trafik', total: 18 },
-        { title: '- Menggunakan Masker', total: 9 },
-        { title: '- Menjaga Jarak', total: 10 },
-        { title: '- Pelanggar Masker', total: 9 },
-        { title: '- Pelanggar Menjaga Jarak', total: 8 }
+        { title: '- Trafik', total: 0 },
+        { title: '- Menggunakan Masker', total: 0 },
+        { title: '- Menjaga Jarak', total: 0 },
+        { title: '- Pelanggar Masker', total: 0 },
+        { title: '- Pelanggar Menjaga Jarak', total: 0 }
       ]
     }
   },
   computed: {
+    ...mapGetters({
+      totalTraffic: 'detection-log/getTotalTraffic',
+      totalUsageMask: 'detection-log/getTotalUsageMask',
+      totalKeepDistance: 'detection-log/getTotalKeepDistance'
+    }),
+    totalOffenderMask () {
+      return this.totalTraffic - this.totalUsageMask
+    },
+    totalOffenderDistance () {
+      return this.totalTraffic - this.totalKeepDistance
+    },
     videoWrapperWidth () {
       if (process.client) {
         const dom = document.getElementById('video-wrapper')
@@ -93,6 +105,54 @@ export default {
 
       return 500
     }
+  },
+  watch: {
+    totalTraffic: {
+      handler (val) {
+        this.items[0].total = val
+      }
+    },
+    totalUsageMask: {
+      handler (val) {
+        this.items[1].total = val
+      }
+    },
+    totalKeepDistance: {
+      handler (val) {
+        this.items[2].total = val
+      }
+    },
+    totalOffenderMask: {
+      handler (val) {
+        this.items[3].total = val
+      }
+    },
+    totalOffenderDistance: {
+      handler (val) {
+        this.items[4].total = val
+      }
+    }
+  },
+  beforeMount () {
+    this.$axios.get('/api/detection-log')
+      .then(({ data }) => {
+        this.$store.commit('detection-log/setDetectionLog', data.data)
+      })
+
+    this.$axios.get('/api/traffic-in-week')
+      .then(({ data }) => {
+        this.$store.commit('traffic/setTrafficInWeek', data.data)
+      })
+
+    this.$axios.get('/api/use-mask-in-week')
+      .then(({ data }) => {
+        this.$store.commit('traffic/setUseMaskInWeek', data.data)
+      })
+
+    this.$axios.get('/api/keep-distance-in-week')
+      .then(({ data }) => {
+        this.$store.commit('traffic/setKeepDistanceInWeek', data.data)
+      })
   },
   mounted () {
     const { videoRef } = this.$refs

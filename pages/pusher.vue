@@ -2,40 +2,30 @@
   <div class="page-content">
     <b-row>
       <b-col md="12">
-        <button type="button"
-                class="btn btn-primary btn-block"
-                @click="getMessage ">
-          Click
-        </button>
+        <pre>
+          {{ detectionLogs }}
+        </pre>
       </b-col>
     </b-row>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'SocketIo',
-  data () {
-    return {
-      messageRxd: ''
-    }
-  },
-  mounted () {
-    this.socket = this.$nuxtSocket({ channel: '/pusher' })
+import { mapGetters } from 'vuex'
 
-    this.socket.on('getMessage', (c) => {
-      console.log(c)
-    })
-  },
-  methods: {
-    getMessage () {
-      return new Promise((resolve) => {
-        this.socket.emit('getMessage', { id: 'abc123' }, (resp) => {
-          this.messageRxd = resp
-          resolve()
-        })
+export default {
+  name: 'Pusher',
+  async asyncData ({ $axios, store }) {
+    await $axios.get('/api/detection-log')
+      .then(({ data }) => {
+        store.commit('detection-log/setDetectionLog', data.data)
+        // test
       })
-    }
+  },
+  computed: {
+    ...mapGetters({
+      detectionLogs: 'detection-log/getDetectionLogs'
+    })
   }
 }
 </script>

@@ -12,20 +12,20 @@
           <h3 class="mb-2">
             <client-only placeholder="Loading...">
               <i-count-up :delay="1000"
-                          :end-val="data"
+                          :end-val="totalTrafficToday"
                           :options="countUpConfig"></i-count-up>
             </client-only>
           </h3>
           <div class="d-flex align-items-baseline">
             <client-only>
-              <p :class="[percentage > 0 ? 'text-success' : 'text-danger']">
+              <p :class="[differenceTrafficPercentage > 0 ? 'text-success' : 'text-danger']">
                       <span>
                         <i-count-up :delay="200"
-                                    :end-val="percentage"
+                                    :end-val="differenceTrafficPercentage"
                                     :options="configCountUpPercentage"></i-count-up>
                       </span>
                 <font-awesome-icon far
-                                   :icon="percentage > 0 ? 'arrow-up' : 'arrow-down'" />
+                                   :icon="differenceTrafficPercentage > 0 ? 'arrow-up' : 'arrow-down'" />
               </p>
             </client-only>
           </div>
@@ -59,11 +59,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      totalTrafficToday: 'traffic/getTotalTrafficToday',
+      totalTrafficYesterday: 'traffic/getTotalTrafficYesterday',
+      differenceTrafficPercentage: 'traffic/getDifferenceTrafficPercentage',
       countUpConfig: 'config/getConfigCountUp',
       configCountUpPercentage: 'config/getConfigCountUpPercentage',
-      data: 'traffic/getData',
-      percentage: 'traffic/getPercentage',
-      series: 'traffic/getSeriesArray'
+      series: 'traffic/getSeriesTrafficArray'
     }),
     chartOptions () {
       return {
@@ -81,7 +82,7 @@ export default {
         markers: {
           size: 0
         },
-        colors: [this.percentage > 0 ? '#28A745' : '#E6212B'],
+        colors: [this.differenceTrafficPercentage > 0 ? '#28A745' : '#E6212B'],
         tooltip: {
           fixed: {
             enabled: !1

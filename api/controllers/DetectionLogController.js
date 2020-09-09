@@ -37,9 +37,8 @@ function store (req, res) {
       console.log(error)
     }
 
-    req.io.sockets.to('/index').emit('getMessage', { data: 1 })
+    req.pusher.trigger('public-channel', 'new-detection-log', detectionLog)
 
-    console.log(req.io.to('/index').emit('getMessage', { data: 1 }))
     res.send({
       success: true,
       message: 'Created successfully!'

@@ -12,20 +12,20 @@
           <h3 class="mb-2">
             <client-only placeholder="Loading...">
               <i-count-up :delay="1000"
-                          :end-val="data"
+                          :end-val="totalUseMaskToday"
                           :options="countUpConfig"></i-count-up>
             </client-only>
           </h3>
           <div class="d-flex align-items-baseline">
             <client-only>
-              <p :class="[percentage > 0 ? 'text-success' : 'text-danger']">
+              <p :class="[differenceUseMaskPercentage > 0 ? 'text-success' : 'text-danger']">
                       <span>
                         <i-count-up :delay="200"
-                                    :end-val="percentage"
+                                    :end-val="differenceUseMaskPercentage"
                                     :options="configCountUpPercentage"></i-count-up>
                       </span>
                 <font-awesome-icon far
-                                   :icon="percentage > 0 ? 'arrow-up' : 'arrow-down'" />
+                                   :icon="differenceUseMaskPercentage > 0 ? 'arrow-up' : 'arrow-down'" />
               </p>
             </client-only>
           </div>
@@ -50,7 +50,7 @@ import { mapGetters } from 'vuex'
 import ICountUp from 'vue-countup-v2'
 
 export default {
-  name: 'FaceMask',
+  name: 'UseMask',
   components: {
     ICountUp
   },
@@ -59,11 +59,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      totalUseMaskToday: 'traffic/getTotalUseMaskToday',
+      totalUseMaskYesterday: 'traffic/getTotalUseMaskYesterday',
+      differenceUseMaskPercentage: 'traffic/getDifferenceUseMaskPercentage',
       countUpConfig: 'config/getConfigCountUp',
       configCountUpPercentage: 'config/getConfigCountUpPercentage',
-      data: 'face-mask/getData',
-      percentage: 'face-mask/getPercentage',
-      series: 'face-mask/getSeriesArray'
+      series: 'traffic/getSeriesUseMaskArray'
     }),
     chartOptions () {
       return {
@@ -81,7 +82,7 @@ export default {
         markers: {
           size: 0
         },
-        colors: [this.percentage > 0 ? '#28A745' : '#E6212B'],
+        colors: [this.differenceUseMaskPercentage > 0 ? '#28A745' : '#E6212B'],
         tooltip: {
           fixed: {
             enabled: !1

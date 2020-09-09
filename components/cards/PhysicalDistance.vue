@@ -12,20 +12,20 @@
           <h3 class="mb-2">
             <client-only placeholder="Loading...">
               <i-count-up :delay="1000"
-                          :end-val="data"
+                          :end-val="totalKeepDistanceToday"
                           :options="countUpConfig"></i-count-up>
             </client-only>
           </h3>
           <div class="d-flex align-items-baseline">
             <client-only>
-              <p :class="[percentage > 0 ? 'text-success' : 'text-danger']">
+              <p :class="[differenceKeepDistancePercentage > 0 ? 'text-success' : 'text-danger']">
                       <span>
                         <i-count-up :delay="200"
-                                    :end-val="percentage"
+                                    :end-val="differenceKeepDistancePercentage"
                                     :options="configCountUpPercentage"></i-count-up>
                       </span>
                 <font-awesome-icon far
-                                   :icon="percentage > 0 ? 'arrow-up' : 'arrow-down'" />
+                                   :icon="differenceKeepDistancePercentage > 0 ? 'arrow-up' : 'arrow-down'" />
               </p>
             </client-only>
           </div>
@@ -50,7 +50,7 @@ import { mapGetters } from 'vuex'
 import ICountUp from 'vue-countup-v2'
 
 export default {
-  name: 'PhysicalDistance',
+  name: 'KeepDistance',
   components: {
     ICountUp
   },
@@ -59,11 +59,12 @@ export default {
   },
   computed: {
     ...mapGetters({
+      totalKeepDistanceToday: 'traffic/getTotalKeepDistanceToday',
+      totalKeepDistanceYesterday: 'traffic/getTotalKeepDistanceYesterday',
+      differenceKeepDistancePercentage: 'traffic/getDifferenceKeepDistancePercentage',
       countUpConfig: 'config/getConfigCountUp',
       configCountUpPercentage: 'config/getConfigCountUpPercentage',
-      data: 'physical-distance/getData',
-      percentage: 'physical-distance/getPercentage',
-      series: 'physical-distance/getSeriesArray'
+      series: 'traffic/getSeriesKeepDistanceArray'
     }),
     chartOptions () {
       return {
@@ -81,7 +82,7 @@ export default {
         markers: {
           size: 0
         },
-        colors: [this.percentage > 0 ? '#28A745' : '#E6212B'],
+        colors: [this.differenceKeepDistancePercentage > 0 ? '#28A745' : '#E6212B'],
         tooltip: {
           fixed: {
             enabled: !1

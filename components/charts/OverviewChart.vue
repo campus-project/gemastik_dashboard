@@ -107,9 +107,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      physicalDistanceSeries: 'physical-distance/getSeries',
-      faceMaskSeries: 'face-mask/getSeries',
-      trafficSeries: 'traffic/getSeries'
+      physicalDistanceSeries: 'traffic/getSeriesKeepDistance',
+      faceMaskSeries: 'traffic/getSeriesUseMask',
+      trafficSeries: 'traffic/getSeriesTraffic'
     }),
     series () {
       return [
