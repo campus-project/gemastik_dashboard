@@ -1,5 +1,5 @@
-import path from 'path'
-import fs from 'fs'
+// import path from 'path'
+// import fs from 'fs'
 
 export default {
   /*
@@ -17,11 +17,11 @@ export default {
    */
   server: {
     host: process.env.APP_URL,
-    port: process.env.APP_PORT,
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
-    }
+    port: process.env.APP_PORT
+    // https: {
+    //   key: fs.readFileSync(path.resolve(__dirname, 'server.key')),
+    //   cert: fs.readFileSync(path.resolve(__dirname, 'server.crt'))
+    // }
   },
   /*
   ** Headers of the page
@@ -92,7 +92,7 @@ export default {
     sockets: [
       {
         name: 'main',
-        url: 'https://localhost:3000'
+        url: 'https://yudi.staging-dev.site'
       }
     ]
   },
