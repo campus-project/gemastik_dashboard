@@ -1,26 +1,24 @@
-const server = require('http')
+/* eslint-disable import/order */
+
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const compression = require('compression')
-const io = require('socket.io')
 
-const mongoose = require('mongoose')
-const DetectionLog = require('./models/DetectionLog')
+// Create express instance and socket.io
+const app = express()
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
 
 // Connect MongoDB
+const mongoose = require('mongoose')
 mongoose.connect('mongodb://localhost:27017/gemastik13')
 const db = mongoose.connection
 db.on('error', console.error.bind(console, 'connection error'))
 db.once('open', function (callback) {
   console.log('Connection Succeeded')
 })
-
-// Create express instance
-const app = express()
-server.Server(app)
-io(server)
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(function (req, res, next) {

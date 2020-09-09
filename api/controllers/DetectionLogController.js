@@ -37,29 +37,12 @@ function store (req, res) {
       console.log(error)
     }
 
-    DetectionLog.aggregate(
-      [{
-        $group: {
-          _id: '$name',
-          total_detection: { $sum: 1 }
-        }
-      }],
+    req.io.sockets.to('/index').emit('getMessage', { data: 1 })
 
-      function (err, results) {
-        if (err) {
-          throw err
-        }
-
-        console.log(results)
-
-        req.io.sockets.emit('detectionLog', results)
-      }
-    )
-
+    console.log(req.io.to('/index').emit('getMessage', { data: 1 }))
     res.send({
       success: true,
-      message: 'Created successfully!',
-      data: detectionLog
+      message: 'Created successfully!'
     })
   })
 }
